@@ -1,0 +1,73 @@
+version: "3.8"
+
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+      - JELLYFIN_PublishedServerUrl=<yourPublicJellyfinUrl>
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      - ./config:/config
+      - /data:/data # /mnt/usbmerged/medialab:/data
+    runtime: nvidia
+    ports:
+      - 8096:8096
+    networks:
+      - proxy
+    restart: unless-stopped
+
+  jellyseerr:
+    container_name: jellyseerr
+    image: fallenbagel/jellyseerr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - ./jellyseerr:/app/config
+    ports:
+      - 5055:5055
+    networks:
+      - proxy
+    restart: unless-stopped
+
+  jellystat-db:
+    image: postgres:15.2
+    container_name: jellystat-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: <yourPostgresPassword>
+    volumes:
+      - ./jellystat/postgres:/var/lib/postgresql/data
+    networks:
+      - proxy
+
+  jellystat:
+    image: cyfershepard/jellystat:latest
+    container_name: jellystat
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: <yourPostgresPassword>
+      POSTGRES_IP: jellystat-db
+      POSTGRES_PORT: 5432
+      JWT_SECRET: "<yourJWTSecret>"
+      TZ: America/Argentina/Buenos_Aires
+    volumes:
+      - ./jellystat/backup-data:/app/backend/backup-data
+    ports:
+      - "3001:3000"
+    depends_on:
+      - jellystat-db
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
