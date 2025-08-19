@@ -13,7 +13,7 @@ services:
       #- NVIDIA_DRIVER_CAPABILITIES=all
     volumes:
       - ./config:/config
-      - /data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data # /mnt/usbmerged/medialab:/data
     #runtime: nvidia
     ports:
       - 8096:8096
