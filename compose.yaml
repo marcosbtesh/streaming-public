@@ -48,7 +48,7 @@ services:
       - TORRENTING_PORT=${FIREWALL_VPN_INPUT_PORTS}
     volumes:
       - ./qbittorrent:/config
-      - /data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data # /mnt/usbmerged/medialab:/data
     depends_on:
       gluetun:
         condition: service_healthy
@@ -70,7 +70,7 @@ services:
       - TZ=America/Argentina/Buenos_Aires
     volumes:
       - ./prowlarr:/config
-      - /data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data # /mnt/usbmerged/medialab:/data
     depends_on:
       gluetun:
         condition: service_healthy
@@ -116,7 +116,7 @@ services:
       - TZ=America/Argentina/Buenos_Aires
     volumes:
       - ./sonarr:/config
-      - /data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data # /mnt/usbmerged/medialab:/data
     ports:
       - 8989:8989
     networks:
@@ -134,7 +134,7 @@ services:
       - TZ=America/Argentina/Buenos_Aires
     volumes:
       - ./radarr:/config
-      - /data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data # /mnt/usbmerged/medialab:/data
     ports:
       - 7878:7878
     networks:
@@ -152,7 +152,7 @@ services:
       - TZ=America/Argentina/Buenos_Aires
     volumes:
       - ./lidarr:/config
-      - /data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data # /mnt/usbmerged/medialab:/data
     ports:
       - 8686:8686
     networks:
@@ -170,7 +170,7 @@ services:
       - TZ=America/Argentina/Buenos_Aires
     volumes:
       - ./bazarr:/config
-      - /data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data # /mnt/usbmerged/medialab:/data
     ports:
       - 6767:6767
     networks:
@@ -187,7 +187,7 @@ services:
       - TZ=America/Argentina/Buenos_Aires
     volumes:
       - ./readarr:/config
-      - /data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data # /mnt/usbmerged/medialab:/data
     ports:
       - 8787:8787
     networks:
