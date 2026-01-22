@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    # network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+      - VERSION=docker
+      - PLEX_CLAIM=YOUR-PLEX-CLAIM-TOKEN
+      # - NVIDIA_VISIBLE_DEVICES=all
+      # - NVIDIA_DRIVER_CAPABILITIES=video,compute,utility
+    ports:
+      - 32400:32400
+    # devices:
+    #  - /dev/dri:/dev/dri # QuickSync
+    # runtime: nvidia
+    networks:
+      - proxy
+    volumes:
+      - ./plex:/config
+      - ./data:/data # /mnt/usbmerged/medialab:/data
+    restart: unless-stopped
+
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - ./overseerr/config:/config
+      - ./data:/data # /mnt/usbmerged/medialab:/data
+    ports:
+      - 5056:5055
+    networks:
+      - proxy
+    restart: unless-stopped
+
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Argentina/Buenos_Aires
+    volumes:
+      - ./tautulli:/config
+    ports:
+      - 8181:8181
+    networks:
+      - proxy
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
