@@ -22,7 +22,7 @@ services:
       - proxy
     volumes:
       - ./plex:/config
-      - ./data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data
     restart: unless-stopped
 
   overseerr:
@@ -34,7 +34,7 @@ services:
       - TZ=America/Argentina/Buenos_Aires
     volumes:
       - ./overseerr/config:/config
-      - ./data:/data # /mnt/usbmerged/medialab:/data
+      - ./data:/data
     ports:
       - 5056:5055
     networks:
