@@ -226,7 +226,7 @@ services:
         ipv4_address: 172.39.0.6
       proxy:
   readarr:
-    image: ghcr.io/hotio/readarr
+    image: ghcr.io/pennydreadful/bookshelf:softcover
     container_name: readarr
     restart: unless-stopped
     environment:
